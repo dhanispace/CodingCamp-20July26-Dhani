@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Expense &amp; Budget Visualizer</title>
+  <link rel="stylesheet" href="css/style.css">
+  <script
+    src="https://cdn.jsdelivr.net/npm/chart.js"
+    onerror="window.__chartJsLoadFailed = true;"
+  ></script>
+  <script defer src="js/app.js"></script>
+</head>
+<body>
+
+  <header>
+    <div class="container">
+      <h1>Expense &amp; Budget Visualizer</h1>
+      <div id="balance-display">
+        <span id="balance-label">Total Balance</span>
+        <span id="balance-amount">$0.00</span>
+      </div>
+    </div>
+  </header>
+
+  <div id="storage-warning" role="alert" hidden>
+    <div class="container">
+      <p>Warning: Your saved transaction data was corrupted and could not be loaded. Starting with an empty transaction list.</p>
+    </div>
+  </div>
+
+  <main>
+    <div class="container">
+
+      <section id="form-section">
+        <h2>Add Transaction</h2>
+        <form id="transaction-form" novalidate>
+
+          <div class="field-group">
+            <label for="item-name">Item Name</label>
+            <input
+              id="item-name"
+              type="text"
+              maxlength="100"
+              aria-required="true"
+              autocomplete="off"
+              placeholder="e.g. Lunch"
+            >
+            <span
+              class="error-msg"
+              role="alert"
+              aria-live="polite"
+              id="error-item-name"
+            ></span>
+          </div>
+
+          <div class="field-group">
+            <label for="amount">Amount</label>
+            <input
+              id="amount"
+              type="number"
+              min="0.01"
+              max="999999999.99"
+              step="0.01"
+              aria-required="true"
+              autocomplete="off"
+              placeholder="e.g. 12.50"
+            >
+            <span
+              class="error-msg"
+              role="alert"
+              aria-live="polite"
+              id="error-amount"
+            ></span>
+          </div>
+
+          <div class="field-group">
+            <label for="category">Category</label>
+            <select id="category" aria-required="true">
+              <option value="" disabled selected>Select a category</option>
+              <option value="Food">Food</option>
+              <option value="Transport">Transport</option>
+              <option value="Fun">Fun</option>
+            </select>
+            <span
+              class="error-msg"
+              role="alert"
+              aria-live="polite"
+              id="error-category"
+            ></span>
+          </div>
+
+          <button type="submit">Add Transaction</button>
+
+        </form>
+        <p id="limit-notification" role="alert" hidden>
+          Maximum of 500 transactions reached. Delete some to add more.
+        </p>
+      </section>
+
+      <section id="transactions-section">
+        <h2>Transactions</h2>
+        <div id="transaction-list" role="list">
+          <!-- populated by renderTransactionList() -->
+        </div>
+      </section>
+
+      <section id="chart-section">
+        <h2>Spending by Category</h2>
+        <div id="chart-container">
+          <canvas id="spending-chart"></canvas>
+          <p id="chart-placeholder" hidden>No data to display</p>
+          <p id="chart-error" hidden>Chart could not be rendered (Chart.js failed to load).</p>
+        </div>
+      </section>
+
+    </div>
+  </main>
+
+</body>
+</html>
